@@ -1,0 +1,39 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/auth/realms/merlin-domain
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: gateway-local
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: httpbin
+          uri: http://httpbin.org
+          predicates:
+            - Path=/httpbin/**
+          filters:
+            - RewritePath=/httpbin(?<segment>/?.*), $\{segment}
+            - AddRequestHeader=Hello2, World2
+        - id: baeldung
+          uri: http://baeldung.com
+          predicates:
+            - Path=/baeldung/
+          filter:
+            - Path
+      default-filters:
+        - TokenRelay
+#            - Path=/httpbin/{segment}
+#          filters:
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway

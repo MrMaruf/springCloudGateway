@@ -1,4 +1,4 @@
-package maruf.services.springcloudgatewayservice;
+package maruf.services.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
